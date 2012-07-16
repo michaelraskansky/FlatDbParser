@@ -4,3 +4,10 @@
 *.jar
 *.war
 *.ear
+
+# Eclipse #
+.classpath
+.gitignore
+.project
+.settings/
+
