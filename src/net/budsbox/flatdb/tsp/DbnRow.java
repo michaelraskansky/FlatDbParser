@@ -1,4 +1,4 @@
-package net.budsbox.pstool.tsp;
+package net.budsbox.flatdb.tsp;
 
 import java.util.ArrayList;
 import java.util.HashMap;

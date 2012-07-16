@@ -1,4 +1,4 @@
-package net.budsbox.pstool.tsp;
+package net.budsbox.flatdb.main;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -9,10 +9,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import org.yaml.snakeyaml.Yaml;
-import net.budsbox.pstool.adapters.FileAdapter;
-import net.budsbox.pstool.main.FlatDbParser;
 
-public abstract class DbnHelper {
+import net.budsbox.flatdb.loader.FileLoader;
+import net.budsbox.flatdb.manager.PmManager;
+import net.budsbox.flatdb.tsp.DbnMo;
+import net.budsbox.flatdb.tsp.DbnRow;
+
+public abstract class FlatDbHelper {
 	
 	public static String getYaml(DbnMo mo) {
 		Yaml yaml = new Yaml();
@@ -30,10 +33,10 @@ public abstract class DbnHelper {
 		}
 		System.out.println("");
 	}
-	public static void printToConsole(String directory, String recordType, ArrayList<String> attributes, RuntimeStats stats)
+	public static void printToConsole(String directory, String recordType, ArrayList<String> attributes, PmManager stats)
 	{
 		
-		FileAdapter fileLoader = new FileAdapter(directory);
+		FileLoader fileLoader = new FileLoader(directory);
 		String oneFile=fileLoader.getOneFile();
 	
 		while (oneFile != null)
@@ -71,7 +74,7 @@ public abstract class DbnHelper {
 		}
 		
 	}
-	public static void printToFile(String inDir, String outDir, String recordType, ArrayList<String> attributes, RuntimeStats stats)
+	public static void printToFile(String inDir, String outDir, String recordType, ArrayList<String> attributes, PmManager stats)
 	{
 		
 		FileWriter fstream = null;
@@ -84,7 +87,7 @@ public abstract class DbnHelper {
 			System.err.println("=== Error: \n" + e1.getMessage() + "\n");
 		}
 		BufferedWriter out = new BufferedWriter(fstream);
-		FileAdapter fileLoader = new FileAdapter(inDir);
+		FileLoader fileLoader = new FileLoader(inDir);
 		String oneFile=fileLoader.getOneFile();
 		
 		while (oneFile != null)
@@ -181,10 +184,6 @@ public abstract class DbnHelper {
 				fieldLength + stringSizeLength + intStringLength).
 				replaceAll("\\\\n", "").replaceAll("\\\\\"", "\"");
 		
-		if(FlatDbParser.jsonFields.contains(fieldName))
-		{
-			System.out.println("This is a JSON field");
-		}
 		resault.add(cleanValue);
 		return resault;
 	}

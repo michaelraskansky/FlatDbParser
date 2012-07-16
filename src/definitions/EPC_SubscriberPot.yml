@@ -1,3 +1,3 @@
-!!net.budsbox.pstool.tsp.RowDefinition
+!!net.budsbox.tsp.RowDefinition
 attributes: [userId, groups, services, blacklist_services, operatorInfo, pccSubscriberPotRef, notificationData, familyId, trafficIds]
 className: EPC_SubscriberPot

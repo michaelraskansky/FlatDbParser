@@ -1,8 +1,8 @@
-package net.budsbox.pstool.tsp;
+package net.budsbox.flatdb.manager;
 
 import org.yaml.snakeyaml.Yaml;
 
-public class RuntimeStats {
+public class PmManager {
 	
 	private int statNumOfRows;
 	private int statNumOfObject;

@@ -1,7 +1,9 @@
-package net.budsbox.pstool.tsp;
+package net.budsbox.flatdb.tsp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import net.budsbox.flatdb.main.FlatDbHelper;
 
 public class DbnMo {
 	
@@ -16,7 +18,7 @@ public class DbnMo {
 		this.attributes = rp.getAttributes();
 		
 		for (String field : rp.getAttributes()){
-			this.attributeValuePair.put(field ,DbnHelper.parseRow(rp, field));
+			this.attributeValuePair.put(field ,FlatDbHelper.parseRow(rp, field));
 		}
 	}
 	
