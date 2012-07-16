@@ -12,24 +12,19 @@ import org.yaml.snakeyaml.Yaml;
 import net.budsbox.pstool.adapters.FileAdapter;
 import net.budsbox.pstool.main.FlatDbParser;
 
-public abstract class DbnHelper 
-{
+public abstract class DbnHelper {
 	
-	public static String getYaml(DbnMo mo) 
-	{
+	public static String getYaml(DbnMo mo) {
 		Yaml yaml = new Yaml();
 		return yaml.dump(mo);
 	}
-	public static void printAVPs(DbnMo mo) 
-	{
+	public static void printAVPs(DbnMo mo) {
 		System.out.println("");
 		System.out.println("Tsp Pot");
 		System.out.println("----------------------------");
 		
-		for (String key : mo.getAttributeValuePair().keySet())
-		{
-			for (String values : mo.getAttributeValuePair().get(key))
-			{
+		for (String key : mo.getAttributeValuePair().keySet()) {
+			for (String values : mo.getAttributeValuePair().get(key)) {
 				System.out.println(key +": \t"+values);
 			}
 		}
