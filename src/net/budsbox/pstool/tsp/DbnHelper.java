@@ -12,47 +12,63 @@ import org.yaml.snakeyaml.Yaml;
 import net.budsbox.pstool.adapters.FileAdapter;
 import net.budsbox.pstool.main.FlatDbParser;
 
-public abstract class DbnHelper {
+public abstract class DbnHelper 
+{
 	
-	public static String getYaml(DbnMo mo) {
+	public static String getYaml(DbnMo mo) 
+	{
 		Yaml yaml = new Yaml();
 		return yaml.dump(mo);
 	}
-	public static void printAVPs(DbnMo mo) {
+	public static void printAVPs(DbnMo mo) 
+	{
 		System.out.println("");
 		System.out.println("Tsp Pot");
 		System.out.println("----------------------------");
 		
-		for (String key : mo.getAttributeValuePair().keySet()){
-			for (String values : mo.getAttributeValuePair().get(key)){
+		for (String key : mo.getAttributeValuePair().keySet())
+		{
+			for (String values : mo.getAttributeValuePair().get(key))
+			{
 				System.out.println(key +": \t"+values);
 			}
 		}
 		System.out.println("");
 	}
-	public static void printToConsole(String directory, String recordType, ArrayList<String> attributes, RuntimeStats stats){
+	public static void printToConsole(String directory, String recordType, ArrayList<String> attributes, RuntimeStats stats)
+	{
 		
 		FileAdapter fileLoader = new FileAdapter(directory);
 		String oneFile=fileLoader.getOneFile();
 	
-		while (oneFile != null){
-			try{
+		while (oneFile != null)
+		{
+			try
+			{
 				stats.statNumOfFiles();
 				String inRow;
 				FileInputStream fstream = new FileInputStream(oneFile);
 				DataInputStream in = new DataInputStream(fstream);
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
-				while ( (inRow = br.readLine()) != null ) {
+				while ( (inRow = br.readLine()) != null ) 
+				{
 					stats.statNumOfRows();
-					if (inRow.contains(recordType)){
+					if (inRow.contains(recordType))
+					{
 						DbnRow row = new DbnRow(inRow, attributes, recordType);
 						DbnMo mo = new DbnMo(row);
 						System.out.println(getYaml(mo));
 						stats.statNumOfObject();
-					} else {stats.statNumOfLinesSkiped();}
+					} 
+					else 
+					{
+						stats.statNumOfLinesSkiped();
+					}
 				}
 				in.close();
-			} catch (Exception e) {
+			} 
+			catch (Exception e) 
+			{
 					stats.statNumOfFailedFiles();
 					System.err.println("=== Error: \n" + e.getMessage() + "\n");
 			} 
@@ -60,62 +76,84 @@ public abstract class DbnHelper {
 		}
 		
 	}
-	public static void printToFile(String inDir, String outDir, String recordType, ArrayList<String> attributes, RuntimeStats stats){
+	public static void printToFile(String inDir, String outDir, String recordType, ArrayList<String> attributes, RuntimeStats stats)
+	{
 		
 		FileWriter fstream = null;
-		try {
+		try 
+		{
 			fstream = new FileWriter(outDir);
-		} catch (IOException e1) {
+		} 
+		catch (IOException e1) 
+		{
 			System.err.println("=== Error: \n" + e1.getMessage() + "\n");
 		}
 		BufferedWriter out = new BufferedWriter(fstream);
 		FileAdapter fileLoader = new FileAdapter(inDir);
 		String oneFile=fileLoader.getOneFile();
 		
-		while (oneFile != null){
-			try{
+		while (oneFile != null)
+		{
+			try
+			{
 				stats.statNumOfFiles();
 				String inRow;
 				FileInputStream finstream = new FileInputStream(oneFile);
 				DataInputStream in = new DataInputStream(finstream);
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
-				while ( (inRow = br.readLine()) != null ) {
+				while ( (inRow = br.readLine()) != null ) 
+				{
 					stats.statNumOfRows();
-					if (inRow.contains(recordType)){
+					if (inRow.contains(recordType))
+					{
 						DbnRow row = new DbnRow(inRow, attributes, recordType);
 						DbnMo mo = new DbnMo(row);
 						out.write(getYaml(mo));
 						out.write("---\n");
 						stats.statNumOfObject();
-					} else {stats.statNumOfLinesSkiped();}
+					} 
+					else 
+					{
+						stats.statNumOfLinesSkiped();
+					}
 				}
 				in.close();
-			} catch (Exception e) {
+			} 
+			catch (Exception e) 
+			{
 					stats.statNumOfFailedFiles();
 					System.err.println("=== Error: \n" + e.getMessage() + "\n");
 					e.printStackTrace();
 			} 
 			oneFile=fileLoader.getOneFile();
 		}
-		try {
+		try 
+		{
 			out.close();
-		} catch (IOException e) {
+		} 
+		catch (IOException e) 
+		{
 			System.err.println("=== Error: \n" + e.getMessage() + "\n");
 		}
 		
 	}
-	public static ArrayList<String> parseRow(DbnRow rp, String fieldName){
+	public static ArrayList<String> parseRow(DbnRow rp, String fieldName)
+	{
 		ArrayList<String> resault = new ArrayList<String>();
 		String fieldType = rp.getRow().split(fieldName)[1].split(":")[1].split("[0-9]")[0];
-		if (fieldType.equals("S")) {
-			resault=parseRowString(rp, fieldName);
-		} else if (fieldType.equals("A")) {
-			resault=parseRowArray(rp, fieldName);
+		if (fieldType.equals("S")) 
+		{
+			resault = parseRowString(rp, fieldName);
+		} 
+		else if (fieldType.equals("A")) 
+		{
+			resault = parseRowArray(rp, fieldName);
 		}
 		return resault;
 	}
 	
-	private static ArrayList<String> parseRowString(DbnRow rp, String fieldName) {
+	private static ArrayList<String> parseRowString(DbnRow rp, String fieldName) 
+	{
 		
 		ArrayList<String> resault = new ArrayList<String>();
 		String strStringLength = new String();
@@ -129,58 +167,54 @@ public abstract class DbnHelper {
 		int stringSizeLength;
 		int intStringLength;
 		
-		if (rp.getAttributes().size() < indexPlusOne) {
+		if (rp.getAttributes().size() < indexPlusOne) 
+		{
 			fieldIndex2 = rp.getAttributes().indexOf(rp.getAttributes().get(indexPlusOne));
-		} else {
+		} 
+		else 
+		{
 			fieldIndex2 = rp.getRow().indexOf("]]]");
 		}
 		
 		str1 = rp.getRow().substring(rp.getAttributeIndexArray().get(fieldIndex1), fieldIndex2);
-
 		strStringLength = str1.split("S")[1].split("\\(")[0];		
 		fieldLength = fieldName.length();
 		stringSizeLength = strStringLength.length() + 4;
 		intStringLength = Integer.parseInt(strStringLength);
 		
-		cleanValue = str1.substring(fieldLength + stringSizeLength, fieldLength + stringSizeLength + intStringLength).
+		cleanValue = str1.substring(fieldLength + stringSizeLength, 
+				fieldLength + stringSizeLength + intStringLength).
 				replaceAll("\\\\n", "").replaceAll("\\\\\"", "\"");
 		
-		if(FlatDbParser.jsonFields.contains(fieldName)){
+		if(FlatDbParser.jsonFields.contains(fieldName))
+		{
+			System.out.println("This is a JSON field");
 		}
 		resault.add(cleanValue);
 		return resault;
-		
 	}
-	private static ArrayList<String> parseRowArray(DbnRow rp, String fieldName){
-
+	private static ArrayList<String> parseRowArray(DbnRow rp, String fieldName)
+	{
 		int arraySize = Integer.parseInt(rp.getRow().split(fieldName)[1].toString().split("\\[")[0].split("A")[1]);
 		int fieldArrayindex = 0;
 		String cutRow = rp.getRow().split(fieldName)[1];
 		ArrayList<String> arrayValues= new ArrayList<String>();
 		
-		for (int i = 1 ; i <= arraySize ; i++){
-			
-			if (i < arraySize){
-				
+		for (int i = 1 ; i <= arraySize ; i++)
+		{
+			if (i < arraySize)
+			{
 				String pattern1 = "ix" + fieldArrayindex;
 				String pattern2 = "ix" + ( fieldArrayindex + 1 );
-				
 				arrayValues.add(cutRow.substring(cutRow.indexOf(pattern1), cutRow.indexOf(pattern2)).split("\"")[1]);
-				
-			} else if (i==arraySize){
-				
+			} 
+			else if (i==arraySize)
+			{
 				String pattern1 = "ix" + fieldArrayindex;
-				
 				arrayValues.add(cutRow.substring(cutRow.indexOf(pattern1), cutRow.indexOf("]")).split("\"")[1]);
-				
 			}
-			
 			fieldArrayindex++;
-			
 		}
-		
 		return arrayValues;
-		
 	}	
-	
 }
