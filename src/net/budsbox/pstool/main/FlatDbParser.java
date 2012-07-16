@@ -38,6 +38,12 @@ public class FlatDbParser {
 		flatdb.includedStats.printStatistics();
 		
 	}
+
+	/**
+   	* Check to see if class is supported by FlatDbparser
+   	* This returns a boolean values true if the class is
+   	* supported false if it is not supported
+   	*/
 	public static boolean isClassSupported(String type){
 		boolean resault=false;
 		for (String supported : supportedTypes) {
