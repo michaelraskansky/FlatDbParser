@@ -26,7 +26,6 @@ public class FlatDbParser {
 	static {
 		jsonFields.add("usageControlAccum");
 	}
-
 	public static void main(String[] args) throws IOException {
 		
 		
@@ -121,6 +120,10 @@ public class FlatDbParser {
 	}
 	public void setTspClass(String tspClass) {
 		this.tspClass = tspClass;
+	}
+	
+	public void showHelp(){
+		System.out.println("This is a temporary help output");
 	}
 	
 }
