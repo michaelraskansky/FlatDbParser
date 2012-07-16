@@ -121,7 +121,6 @@ public abstract class FlatDbHelper {
 			{
 					stats.statNumOfFailedFiles();
 					System.err.println("=== Error: \n" + e.getMessage() + "\n");
-					e.printStackTrace();
 			} 
 			oneFile=fileLoader.getOneFile();
 		}

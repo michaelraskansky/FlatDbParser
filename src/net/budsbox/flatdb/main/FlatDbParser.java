@@ -19,10 +19,9 @@ public class FlatDbParser {
 		
 		FlatDbParser flatdb = new FlatDbParser();
 		flatdb.configuration = new ConfigManager(args);
-		
 		flatdb.printRunSettings(flatdb);
 		flatdb.startFlatDbParse();
-		
+
 		flatdb.performance.setEndTime(System.currentTimeMillis());
 		flatdb.performance.printStatistics();
 
