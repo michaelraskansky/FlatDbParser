@@ -33,8 +33,7 @@ public abstract class FlatDbHelper {
 		}
 		System.out.println("");
 	}
-	public static void printToConsole(String directory, String recordType, ArrayList<String> attributes, PmManager stats)
-	{
+	public static void printToConsole(String directory, String recordType, ArrayList<String> attributes, PmManager stats) {
 		
 		FileLoader fileLoader = new FileLoader(directory);
 		String oneFile=fileLoader.getOneFile();
@@ -68,7 +67,7 @@ public abstract class FlatDbHelper {
 			catch (Exception e) 
 			{
 					stats.statNumOfFailedFiles();
-					System.err.println("=== Error: \n" + e.getMessage() + "\n");
+					System.err.println("=== Error: \n" + e.getMessage() + " Cant load file " + oneFile + "\n");
 			} 
 			oneFile=fileLoader.getOneFile();
 		}
@@ -84,13 +83,13 @@ public abstract class FlatDbHelper {
 		} 
 		catch (IOException e1) 
 		{
-			System.err.println("=== Error: \n" + e1.getMessage() + "\n");
+			System.err.println("=== Error: \n" + e1.getMessage() + " Can't write to file " + outDir + "\n");
 		}
 		
 		BufferedWriter out = new BufferedWriter(fstream);
 		FileLoader fileLoader = new FileLoader(inDir);
 		String oneFile=fileLoader.getOneFile();
-		
+	
 		while (oneFile != null)
 		{
 			try
@@ -121,7 +120,7 @@ public abstract class FlatDbHelper {
 			catch (Exception e) 
 			{
 					stats.statNumOfFailedFiles();
-					System.err.println("=== Error: \n" + e.getMessage() + "\n");
+					System.err.println("=== Error: \n" + e.getMessage()+ " Can't open file " + oneFile + "\n");
 			} 
 			oneFile=fileLoader.getOneFile();
 		}
@@ -131,7 +130,7 @@ public abstract class FlatDbHelper {
 		} 
 		catch (IOException e) 
 		{
-			System.err.println("=== Error: \n" + e.getMessage() + "\n");
+			System.err.println("=== Error: \n" + e.getMessage() + " Can't close file " + out.toString() + "\n");
 		}
 		
 	}
