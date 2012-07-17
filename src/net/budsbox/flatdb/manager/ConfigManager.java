@@ -22,57 +22,56 @@ public class ConfigManager {
 	private String outputDir = new String();
 	private String tspClass = new String();
 	private boolean configInit;
-	
+
 	private Options options = new Options();
 	{
 		options.addOption("i", true, "Set input directory");
 		options.addOption("o", true, "Set output directory");
-		options.addOption("c", true, "Set class to parse");	
+		options.addOption("c", true, "Set class to parse");
 	}
-	
-	public ConfigManager(String[] args){
-	
+
+	public ConfigManager(String[] args) {
+
 		CommandLineParser parser = new PosixParser();
-		
+
 		try {
-			CommandLine cmd = parser.parse( options, args);
+			CommandLine cmd = parser.parse(options, args);
 			if (cmd.hasOption("i") && cmd.hasOption("o") && cmd.hasOption("c")) {
 				this.inputDir = cmd.getOptionValue("i");
 				this.outputDir = cmd.getOptionValue("o");
 				this.tspClass = cmd.getOptionValue("c");
-				this.configInit=true;
+				this.configInit = true;
 			} else {
-				this.configInit=false;
+				this.configInit = false;
 			}
 		} catch (ParseException e) {
-			this.configInit=false;
+			this.configInit = false;
 			System.out.println("Unknown option!");
 			printHelp();
 		} finally {
-			if (!isClassSupported(tspClass)){
-				this.tspClass="EPC_SubscriberPot";
+			if (!isClassSupported(tspClass)) {
+				this.tspClass = "EPC_SubscriberPot";
 			}
 		}
 	}
-	
+
 	/**
-   	* Check to see if class is supported by FlatDbparser
-   	* This returns a boolean values true if the class is
-   	* supported false if it is not supported
-   	*/
-	public boolean isClassSupported(String type){
-		boolean resault=false;
+	 * Check to see if class is supported by FlatDbparser This returns a boolean
+	 * values true if the class is supported false if it is not supported
+	 */
+	public boolean isClassSupported(String type) {
+		boolean resault = false;
 		for (String supported : supportedTypes) {
 			if (supported.equals(type)) {
-				resault = true;	
-			}	
+				resault = true;
+			}
 		}
 		return resault;
 	}
-	
-	public void printHelp(){
+
+	public void printHelp() {
 		HelpFormatter formatter = new HelpFormatter();
-		formatter.printHelp( "FlatDbParser -i -o -c", options );		
+		formatter.printHelp("FlatDbParser -i -o -c", options);
 	}
 
 	public ArrayList<String> getJsonFields() {
