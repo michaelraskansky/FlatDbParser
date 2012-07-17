@@ -10,57 +10,61 @@ import net.budsbox.flatdb.tsp.RowDefinition;
 
 public class FlatDbParser {
 
-	//Runtime Configuration
+	// Runtime Configuration
 	private PmManager performance = new PmManager();
 	private ConfigManager configuration;
 
 	public static void main(String[] args) {
-		
+
 		FlatDbParser flatdb = new FlatDbParser();
 		flatdb.configuration = new ConfigManager(args);
-		
-		if (flatdb.configuration.isConfigInit()){
-			
+
+		if (flatdb.configuration.isConfigInit()) {
+
+			System.out.println("Supported Types");
+			Yaml yaml = new Yaml();
+			// Now I need to load the YAML from the resource I created,
+			// (Supported Types)
+			System.out.println(yaml.dump(flatdb.configuration
+					.getSupportedTypes()));
+
+			System.out.println("---------------");
+
 			flatdb.printRunSettings(flatdb);
 			flatdb.startFlatDbParse();
 			flatdb.performance.setEndTime(System.currentTimeMillis());
 			flatdb.performance.printStatistics();
-			
+
 		} else {
-			
+
 			flatdb.configuration.printHelp();
-			
+
 		}
 	}
-	
-	public void startFlatDbParse(){
-		
+
+	public void startFlatDbParse() {
+
 		Yaml yamlAttributes = new Yaml();
-		InputStream rowDefintion = FlatDbParser.class.getClass().getResourceAsStream("/definitions/" + configuration.getTspClass() + ".yml");
+		InputStream rowDefintion = FlatDbParser.class.getClass()
+				.getResourceAsStream(
+						"/definitions/" + configuration.getTspClass() + ".yml");
 		DataInputStream io = new DataInputStream(rowDefintion);
-		RowDefinition rowTemplate = (RowDefinition)yamlAttributes.load(io);
-		FlatDbHelper.printToFile(configuration.getInputDir(), configuration.getOutputDir(), configuration.getTspClass(), 
+		RowDefinition rowTemplate = (RowDefinition) yamlAttributes.load(io);
+		FlatDbHelper.printToFile(configuration.getInputDir(),
+				configuration.getOutputDir(), configuration.getTspClass(),
 				rowTemplate.getAttributes(), performance);
 
 	}
-	
+
 	public void printRunSettings(FlatDbParser flatdb) {
-		
+
 		Yaml config = new Yaml();
 		System.out.println("Running With Following configuration");
 		System.out.println("------------------------------------");
 		System.out.println(config.dumpAsMap(flatdb));
 		System.out.println("------------------------------------");
 		System.out.println("");
-		
-	}
 
-	public PmManager getPerformance() {
-		return performance;
-	}
-
-	public void setPerformance(PmManager performance) {
-		this.performance = performance;
 	}
 
 	public ConfigManager getConfiguration() {
@@ -70,7 +74,7 @@ public class FlatDbParser {
 	public void setConfiguration(ConfigManager configuration) {
 		this.configuration = configuration;
 	}
-	
+
 }
 /*
  * TODO Number of files progress bar. Turn JSON to YAML object Create
