@@ -21,6 +21,7 @@ public class ConfigManager {
 	private String inputDir = new String();
 	private String outputDir = new String();
 	private String tspClass = new String();
+	private boolean configInit;
 	
 	private Options options = new Options();
 	{
@@ -35,17 +36,16 @@ public class ConfigManager {
 		
 		try {
 			CommandLine cmd = parser.parse( options, args);
-			if (cmd.hasOption("i")) {
-				this.inputDir=cmd.getOptionValue("i");
+			if (cmd.hasOption("i") && cmd.hasOption("o") && cmd.hasOption("c")) {
+				this.inputDir = cmd.getOptionValue("i");
+				this.outputDir = cmd.getOptionValue("o");
+				this.tspClass = cmd.getOptionValue("c");
+				this.configInit=true;
+			} else {
+				this.configInit=false;
 			}
-			if (cmd.hasOption("o")) {
-				this.outputDir=cmd.getOptionValue("o");
-			}
-			if (cmd.hasOption("c")) {
-				this.tspClass=cmd.getOptionValue("c");
-			}
-			
 		} catch (ParseException e) {
+			this.configInit=false;
 			System.out.println("Unknown option!");
 			printHelp();
 		} finally {
@@ -113,6 +113,14 @@ public class ConfigManager {
 
 	public void setTspClass(String tspClass) {
 		this.tspClass = tspClass;
+	}
+
+	public boolean isConfigInit() {
+		return configInit;
+	}
+
+	public void setConfigInit(boolean configInit) {
+		this.configInit = configInit;
 	}
 
 }

@@ -86,6 +86,7 @@ public abstract class FlatDbHelper {
 		{
 			System.err.println("=== Error: \n" + e1.getMessage() + "\n");
 		}
+		
 		BufferedWriter out = new BufferedWriter(fstream);
 		FileLoader fileLoader = new FileLoader(inDir);
 		String oneFile=fileLoader.getOneFile();

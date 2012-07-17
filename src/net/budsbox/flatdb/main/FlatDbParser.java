@@ -1,7 +1,6 @@
 package net.budsbox.flatdb.main;
 
 import java.io.DataInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import org.yaml.snakeyaml.Yaml;
 
@@ -15,19 +14,26 @@ public class FlatDbParser {
 	private PmManager performance = new PmManager();
 	private ConfigManager configuration;
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		
 		FlatDbParser flatdb = new FlatDbParser();
 		flatdb.configuration = new ConfigManager(args);
-		flatdb.printRunSettings(flatdb);
-		flatdb.startFlatDbParse();
-
-		flatdb.performance.setEndTime(System.currentTimeMillis());
-		flatdb.performance.printStatistics();
-
+		
+		if (flatdb.configuration.isConfigInit()){
+			
+			flatdb.printRunSettings(flatdb);
+			flatdb.startFlatDbParse();
+			flatdb.performance.setEndTime(System.currentTimeMillis());
+			flatdb.performance.printStatistics();
+			
+		} else {
+			
+			flatdb.configuration.printHelp();
+			
+		}
 	}
 	
-	public void startFlatDbParse() throws IOException{
+	public void startFlatDbParse(){
 		
 		Yaml yamlAttributes = new Yaml();
 		InputStream rowDefintion = FlatDbParser.class.getClass().getResourceAsStream("/definitions/" + configuration.getTspClass() + ".yml");
