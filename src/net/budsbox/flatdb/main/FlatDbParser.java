@@ -3,7 +3,6 @@ package net.budsbox.flatdb.main;
 import java.io.DataInputStream;
 import java.io.InputStream;
 import org.yaml.snakeyaml.Yaml;
-
 import net.budsbox.flatdb.manager.ConfigManager;
 import net.budsbox.flatdb.manager.PmManager;
 import net.budsbox.flatdb.tsp.RowDefinition;
@@ -20,16 +19,7 @@ public class FlatDbParser {
 		flatdb.configuration = new ConfigManager(args);
 
 		if (flatdb.configuration.isConfigInit()) {
-
-			System.out.println("Supported Types");
-			Yaml yaml = new Yaml();
-			// Now I need to load the YAML from the resource I created,
-			// (Supported Types)
-			System.out.println(yaml.dump(flatdb.configuration
-					.getSupportedTypes()));
-
-			System.out.println("---------------");
-
+			
 			flatdb.printRunSettings(flatdb);
 			flatdb.startFlatDbParse();
 			flatdb.performance.setEndTime(System.currentTimeMillis());

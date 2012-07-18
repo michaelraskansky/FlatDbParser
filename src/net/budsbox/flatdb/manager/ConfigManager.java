@@ -1,5 +1,6 @@
 package net.budsbox.flatdb.manager;
 
+import java.io.DataInputStream;
 import java.util.ArrayList;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -7,17 +8,12 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
+import org.yaml.snakeyaml.Yaml;
 
 public class ConfigManager {
 	private ArrayList<String> jsonFields = new ArrayList<String>();
 	private ArrayList<String> supportedTypes = new ArrayList<String>();
-	{
-		supportedTypes.add("EPC_SubscriberPot");
-		supportedTypes.add("EPC_UsageControlAccumulatedPot");
-	}
-	{
-		jsonFields.add("usageControlAccum");
-	}
+
 	private String inputDir = new String();
 	private String outputDir = new String();
 	private String tspClass = new String();
@@ -30,6 +26,7 @@ public class ConfigManager {
 		options.addOption("c", true, "Set class to parse");
 	}
 
+	@SuppressWarnings("unchecked")
 	public ConfigManager(String[] args) {
 
 		CommandLineParser parser = new PosixParser();
@@ -53,6 +50,14 @@ public class ConfigManager {
 				this.tspClass = "EPC_SubscriberPot";
 			}
 		}
+		Yaml yamlAttributes = new Yaml();
+		
+		DataInputStream jsonFields = new DataInputStream(ConfigManager.class.getClass().getResourceAsStream("/definitions/JsonFields.yml"));
+		this.jsonFields = (ArrayList<String>)yamlAttributes.load(jsonFields);
+		
+		DataInputStream supportedTypes = new DataInputStream(ConfigManager.class.getClass().getResourceAsStream("/definitions/SupportedTypes.yml"));
+		this.supportedTypes = (ArrayList<String>)yamlAttributes.load(supportedTypes);
+
 	}
 
 	/**
