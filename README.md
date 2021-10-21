@@ -5,3 +5,4 @@ TODO
 	Turn JSON to YAML object
 	Create Configuration Class and load as YAML resource
 	Implement threading
+	thats it.
